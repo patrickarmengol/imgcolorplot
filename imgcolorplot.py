@@ -1,4 +1,4 @@
-# visualize an rgb color space box of an image
+# visualize the rgb color space box of an image
 # TODO: take commandline args, exception handling, save plot to image
 
 import matplotlib.pyplot as plt
@@ -34,7 +34,7 @@ def imgcolorplot(filepath):
 def main():
     filepath = 'hydeoutproductions.jpg'
 
-    imgcolorplot()
+    imgcolorplot(filepath)
 
 if __name__ == '__main__':
     main()
