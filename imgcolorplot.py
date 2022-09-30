@@ -1,17 +1,19 @@
 # visualize the rgb color space box of an image
-# TODO: take commandline args, exception handling, save plot to image
+# TODO: exception handling, figure out why the saved figure looks so much worse than shown
 
 import matplotlib.pyplot as plt
+import argparse
 from PIL import Image
 
 
-def imgcolorplot(filepath):
-    im = Image.open(filepath)
-
-    px = im.load()
-    width, height = im.size
-
+def imgcolorplot(img, out=None):
+    px = img.load()
+    width, height = img.size
+    
     ax = plt.axes(projection = '3d')
+    ax.set_xticks([0, 127.5, 255])
+    ax.set_yticks([0, 127.5, 255])
+    ax.set_zticks([0, 127.5, 255])
 
     rs = []
     gs = []
@@ -28,13 +30,21 @@ def imgcolorplot(filepath):
             cs.append(c)
 
     ax.scatter(rs, gs, bs, c = cs)
-    plt.show()
+    if out:
+        plt.savefig(out, dpi=300)
+    else:
+        plt.show()
 
 
 def main():
-    filepath = 'hydeoutproductions.jpg'
+    parser = argparse.ArgumentParser()
+    parser.add_argument('filepath', type=str, help='input image filepath')
+    parser.add_argument('-o', '--out', help='output to file at specified path')
+    args = parser.parse_args()
 
-    imgcolorplot(filepath)
+    image = Image.open(args.filepath)
+
+    imgcolorplot(img=image, out=args.out)
 
 if __name__ == '__main__':
     main()
